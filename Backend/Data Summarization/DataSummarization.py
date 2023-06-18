@@ -1,9 +1,11 @@
 import os
 import openai
-import config
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # secret api key
-openai.api_key = config.gpt_key
+openai.api_key = os.getenv("gpt_key")
 
 completion = openai.ChatCompletion.create(
   model="gpt-3.5-turbo",

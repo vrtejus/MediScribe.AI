@@ -1,1 +1,0 @@
-gpt_key = "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"
