@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@deepgram/sdk": "^2.1.1"
+  }
+}

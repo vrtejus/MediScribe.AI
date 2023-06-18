@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 // Add Deepgram so we can get the transcription
 const { Deepgram } = require("@deepgram/sdk");
 const deepgram = new Deepgram("ef15d0c8fafbf8c16fbbbe6e2d4025337ed09178");
