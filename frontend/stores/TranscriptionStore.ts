@@ -5,37 +5,92 @@ import { Deepgram } from "@deepgram/sdk/browser"
 import firebase from "firebase/app"
 
 import "firebase/firestore"
-import { doc, setDoc } from "firebase/firestore"
 
 const deepgram = new Deepgram(DEEPGRAM_API_KEY)
 
 class TranscriptionStore {
+  websockets: Record<string, WebSocket> = {}
+  audioContexts: Record<string, AudioContext> = {}
+
   async startTranscription(track: MediaStreamTrack) {
+    const media = new MediaStream([track])
+
     const websocket = deepgram.transcription.live({
       interm_results: true,
       punctuate: true,
       times: false,
     })
 
-    websocket.on("data", async (data: any) => {
-      const { payload } = data
-      if (payload && payload.type === "transcript" && payload.final) {
-        // Create a new document in the "transcripts" collection
-        const transcriptRef = await setDoc(doc(firestore, "transcripts"), {
-          transcript: payload.transcript,
-          timestamp: new Date(),
-        })
-        console.log("payload: ", payload)
+    this.websockets["microphone"] = websocket
+
+    websocket.onopen = () => {
+      console.log("[socket] opened")
+      if (!audioContext) {
+        console.error("[socket] error because audioContext null")
+        return
       }
-    })
+      if (audioContext?.state !== "closed") audioContext?.suspend()
+      const input = audioContext.createMediaStreamSource(media)
+      const output = audioContext.createMediaStreamDestination()
+      input.connect(output)
 
-    websocket.on("error", (error: any) => {
-      console.error("WebSocket error:", error)
-    })
+      const mediaRecorder = new MediaRecorder(output.stream, {
+        mimeType: "audio/webm",
+      })
 
-    websocket.on("close", () => {
-      console.log("WebSocket connection closed")
-    })
+      mediaRecorder.addEventListener("dataavailable", (event) => {
+        if (event.data.size > 0 && websocket.readyState === WebSocket.OPEN) {
+          websocket.send(event.data)
+        }
+      })
+
+      mediaRecorder.start(100)
+
+      if (audioContext.state === "suspended") {
+        audioContext.resume()
+      }
+    }
+
+    websocket.onclose = () => {
+      console.log("[socket] recv onclose event")
+      if (this.audioContexts["microphone"]?.state !== "closed") {
+        try {
+          this.audioContexts["microphone"]?.close()
+        } catch (error) {
+          console.log("[transcription] problem closing audio context", error)
+        }
+      }
+      delete this.audioContexts["microphone"]
+    }
+
+    websocket.onmessage = (event: any) => {
+      const received: {
+        channel?: {
+          alternatives: [
+            {
+              transcript: string
+            }
+          ]
+        }
+        speech_final: boolean
+        is_final: boolean
+      } = JSON.parse(event.data)
+
+      const transcript = received.channel?.alternatives[0].transcript
+
+      if (!transcript || !transcript.length || transcript.trim().length < 2) {
+        // ignore empty transcribes
+        return
+      }
+
+      // Write transcript to Firestore
+      //   firestore.collection("transcripts").add({
+      //     transcript: transcript,
+      //     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      //   });
+    }
+
+    websocket.onerror = console.error
 
     // Audio data handling and sending to the Deepgram WebSocket logic
     const audioContext = new AudioContext()
@@ -48,7 +103,9 @@ class TranscriptionStore {
       audioProcessingEvent: AudioProcessingEvent
     ) => {
       const audioData = audioProcessingEvent.inputBuffer.getChannelData(0)
-      websocket.send(audioData)
+      if (websocket.readyState === WebSocket.OPEN) {
+        websocket.send(audioData)
+      }
     }
 
     mediaStreamSource.connect(scriptProcessorNode)
