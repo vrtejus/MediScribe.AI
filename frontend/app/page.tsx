@@ -7,6 +7,7 @@ import { MicrophoneIcon } from "@heroicons/react/24/solid"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
+import { AlignCenter } from "lucide-react"
 
 export default function IndexPage() {
   const [isTranscribing, setIsTranscribing] = useState(false) // Add a state to track if transcription is in progress
@@ -23,17 +24,16 @@ export default function IndexPage() {
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Beautifully designed components <br className="hidden sm:inline" />
-          built with Radix UI and Tailwind CSS.
+      <div className="flex flex-col items-center gap-2">
+        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl font-serif ">
+          MediScribe.AI <br className="hidden sm:inline" />
         </h1>
         <p className="max-w-[700px] text-lg text-muted-foreground">
-          Accessible and customizable components that you can copy and paste
-          into your apps. Free. Open Source. And Next.js 13 Ready.
+        the future of patient medical care
         </p>
       </div>
-      <div className="flex gap-4">
+      <div className="flex flex-col items-center">
+      <div className="flex flex-row items-center gap-4">
         <Link
           href={siteConfig.links.docs}
           target="_blank"
@@ -57,6 +57,7 @@ export default function IndexPage() {
         >
           <MicrophoneIcon className="h-5 w-5" /> {/* Add the microphone icon */}
         </button>
+      </div>
       </div>
     </section>
   )
