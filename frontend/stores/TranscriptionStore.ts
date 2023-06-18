@@ -3,6 +3,7 @@ import { DEEPGRAM_API_KEY } from "@/secrets"
 // @ts-expect-error
 import { Deepgram } from "@deepgram/sdk/browser"
 import firebase from "firebase/app"
+import {observable, makeObservable} from 'mobx'
 
 import "firebase/firestore"
 
@@ -11,6 +12,12 @@ const deepgram = new Deepgram(DEEPGRAM_API_KEY)
 class TranscriptionStore {
   websockets: Record<string, WebSocket> = {}
   audioContexts: Record<string, AudioContext> = {}
+
+  @observable transcripts: Array<string> = ['']
+
+  constructor() {
+    makeObservable(this)
+  }
 
   async startTranscription(track: MediaStreamTrack) {
     const media = new MediaStream([track])

@@ -9,7 +9,7 @@ const wss = new WebSocket.Server({ port: 3002 });
 // Open WebSocket Connection and initiate live transcription
 wss.on("connection", (ws) => {
   const deepgramLive = deepgram.transcription.live({
-    interim_results: true,
+    interim_results: false,
     punctuate: true,
     endpointing: true,
     vad_turnoff: 500,

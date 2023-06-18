@@ -51,8 +51,10 @@ export default function IndexPage() {
         const received = JSON.parse(message.data)
         const transcript = received.channel.alternatives[0].transcript
         if (transcript) {
+          TranscriptionStore.transcripts.push(transcript)
           console.log(transcript)
           setAffirmation(transcript)
+          console.log('result array: ', TranscriptionStore.transcripts)
         }
       }
 
@@ -87,6 +89,9 @@ export default function IndexPage() {
         >
           <MicrophoneIcon className="h-5 w-5" /> {/* Add the microphone icon */}
         </button>
+        <text>
+          {TranscriptionStore.transcripts.join(' ')}
+        </text>
       </div>
 
     </section>
