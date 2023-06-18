@@ -25,6 +25,7 @@ class TranscriptionStore {
 
     websocket.onopen = () => {
       console.log("[socket] opened")
+      const audioContext = this.audioContexts["microphone"] // Retrieve the audioContext from audioContexts object
       if (!audioContext) {
         console.error("[socket] error because audioContext null")
         return
@@ -94,6 +95,7 @@ class TranscriptionStore {
 
     // Audio data handling and sending to the Deepgram WebSocket logic
     const audioContext = new AudioContext()
+    this.audioContexts["microphone"] = audioContext // Store audioContext in audioContexts object
     const mediaStreamSource = audioContext.createMediaStreamSource(
       new MediaStream([track])
     )
