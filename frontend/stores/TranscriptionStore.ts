@@ -25,11 +25,6 @@ class TranscriptionStore {
           transcript: payload.transcript,
           timestamp: new Date(),
         })
-
-        console.log(
-          "Transcript written to Firestore with ID:",
-          transcriptRef.id
-        )
       }
     })
 
