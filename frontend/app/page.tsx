@@ -1,4 +1,7 @@
 import Link from "next/link"
+import { MicrophoneIcon } from "@heroicons/react/24/solid"
+
+// Import the microphone icon from Heroicons
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
@@ -33,6 +36,9 @@ export default function IndexPage() {
         >
           GitHub
         </Link>
+        <button className={buttonVariants()}>
+          <MicrophoneIcon className="h-5 w-5" /> {/* Add the microphone icon */}
+        </button>
       </div>
     </section>
   )
