@@ -25,6 +25,7 @@ class TranscriptionStore {
           transcript: payload.transcript,
           timestamp: new Date(),
         })
+        console.log("payload: ", payload)
       }
     })
 
@@ -36,8 +37,22 @@ class TranscriptionStore {
       console.log("WebSocket connection closed")
     })
 
-    // You can now handle the audio data from the MediaStreamTrack
-    // and send it to the Deepgram WebSocket for transcription.
+    // Audio data handling and sending to the Deepgram WebSocket logic
+    const audioContext = new AudioContext()
+    const mediaStreamSource = audioContext.createMediaStreamSource(
+      new MediaStream([track])
+    )
+
+    const scriptProcessorNode = audioContext.createScriptProcessor(4096, 1, 1)
+    scriptProcessorNode.onaudioprocess = (
+      audioProcessingEvent: AudioProcessingEvent
+    ) => {
+      const audioData = audioProcessingEvent.inputBuffer.getChannelData(0)
+      websocket.send(audioData)
+    }
+
+    mediaStreamSource.connect(scriptProcessorNode)
+    scriptProcessorNode.connect(audioContext.destination)
   }
 }
 

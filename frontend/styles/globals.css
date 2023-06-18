@@ -20,7 +20,7 @@
     --card-foreground: 222.2 47.4% 11.2%;
 
     --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary-foreground: 210 40% 1%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -50,7 +50,7 @@
     --popover-foreground: 215 20.2% 65.1%;
 
     --border: 216 34% 17%;
-    --input: 216 34% 17%;
+    --input: 216 34% 1%;
 
     --card: 224 71% 4%;
     --card-foreground: 213 31% 91%;

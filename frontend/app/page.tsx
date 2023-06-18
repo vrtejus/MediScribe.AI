@@ -1,12 +1,26 @@
-import Link from "next/link"
-import { MicrophoneIcon } from "@heroicons/react/24/solid"
+"use client"
 
-// Import the microphone icon from Heroicons
+import { useState } from "react"
+import Link from "next/link"
+import TranscriptionStore from "@/stores/TranscriptionStore"
+import { MicrophoneIcon } from "@heroicons/react/24/solid"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 
 export default function IndexPage() {
+  const [isTranscribing, setIsTranscribing] = useState(false) // Add a state to track if transcription is in progress
+
+  const handleTranscriptionClick = async () => {
+    setIsTranscribing(true) // Set the state to indicate transcription is in progress
+    const mediaStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    })
+    const audioTrack = mediaStream.getAudioTracks()[0]
+    await TranscriptionStore.startTranscription(audioTrack)
+    setIsTranscribing(false) // Reset the state after transcription is complete
+  }
+
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
@@ -36,7 +50,11 @@ export default function IndexPage() {
         >
           GitHub
         </Link>
-        <button className={buttonVariants()}>
+        <button
+          className={buttonVariants()}
+          onClick={handleTranscriptionClick} // Add the onClick event handler
+          disabled={isTranscribing} // Disable the button while transcription is in progress
+        >
           <MicrophoneIcon className="h-5 w-5" /> {/* Add the microphone icon */}
         </button>
       </div>
