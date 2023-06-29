@@ -5,7 +5,7 @@
 import os
 from google.cloud import translate_v2 as translate
 
-from firebase_functions import https_fn
+from firebase_functions import https_fn, options
 from firebase_admin import initialize_app
 
 from sqlalchemy import create_engine, Column, Integer, String
@@ -23,7 +23,12 @@ initialize_app(
 )
 
 
-@https_fn.on_request()
+@https_fn.on_request(
+    cors=options.CorsOptions(
+        cors_origins=["*"],
+        cors_methods=["get", "post"],
+    )
+)
 def translate_text(req: https_fn.Request) -> https_fn.Response:
     try:
         # Parse the request body

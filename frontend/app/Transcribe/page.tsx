@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import TranscriptionStore from "@/stores/TranscriptionStore"
 import { MicrophoneIcon } from "@heroicons/react/24/solid"
@@ -93,12 +93,7 @@ export default function IndexPage() {
           </div>
           <div className="p-8">
             <text>
-              {TranscriptionStore.transcripts
-                .map(
-                  (transcript) =>
-                    TranscriptionStore.translations[transcript] || "Loading..."
-                )
-                .join(" ")}
+              {Array.from(TranscriptionStore.translations.values()).join(" ")}
             </text>
           </div>
         </div>
