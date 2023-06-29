@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 
 export default function IndexPage() {
-  const [affirmation, setAffirmation] = useState("")
+  const [affirmation, setAffirmation] = useState("") // nb: this is actually a hack to get the state to update
   const socketRef = useRef<WebSocket | null>(null) // Specify the type as WebSocket | null
 
   const [isTranscribing, setIsTranscribing] = useState(false) // Add a state to track if transcription is in progress
@@ -48,7 +48,7 @@ export default function IndexPage() {
         const received = JSON.parse(message.data)
         const transcript = received.channel.alternatives[0].transcript
         if (transcript) {
-          TranscriptionStore.transcripts.push(transcript)
+          TranscriptionStore.addEnglishTranscript(transcript)
           console.log(transcript)
           setAffirmation(transcript)
           console.log("result array: ", TranscriptionStore.transcripts)
@@ -82,13 +82,26 @@ export default function IndexPage() {
         <button
           className={buttonVariants()}
           onClick={!isTranscribing ? activateMicrophone : closeSocket} // Add the onClick event handler
-          // disabled={isTranscribing} // Disable the button while transcription is in progress
         >
           <MicrophoneIcon className="h-5 w-5 mr-3" />
-          {/* Add the microphone icon */}
           {!isTranscribing ? "Start Transcription" : "Stop Transcription"}
         </button>
-        <text>{TranscriptionStore.transcripts.join(" ")}</text>
+
+        <div className="grid grid-cols-2 border border-gray-300 mt-8">
+          <div className="border-r border-gray-300 p-8">
+            <text>{TranscriptionStore.transcripts.join(" ")}</text>
+          </div>
+          <div className="p-8">
+            <text>
+              {TranscriptionStore.transcripts
+                .map(
+                  (transcript) =>
+                    TranscriptionStore.translations[transcript] || "Loading..."
+                )
+                .join(" ")}
+            </text>
+          </div>
+        </div>
       </div>
     </section>
   )
