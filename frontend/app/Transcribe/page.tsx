@@ -10,18 +10,14 @@ import { buttonVariants } from "@/components/ui/button"
 
 export default function IndexPage() {
   const [affirmation, setAffirmation] = useState("")
-  const socketRef = useRef(null)
+  const socketRef = useRef<WebSocket | null>(null) // Specify the type as WebSocket | null
 
   const [isTranscribing, setIsTranscribing] = useState(false) // Add a state to track if transcription is in progress
 
-  const handleTranscriptionClick = async () => {
-    setIsTranscribing(true) // Set the state to indicate transcription is in progress
-    const mediaStream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-    })
-    const audioTrack = mediaStream.getAudioTracks()[0]
-    await TranscriptionStore.startTranscription(audioTrack)
-    setIsTranscribing(false) // Reset the state after transcription is complete
+  const closeSocket = () => {
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.close()
+    }
   }
 
   const activateMicrophone = () => {
@@ -38,6 +34,7 @@ export default function IndexPage() {
       //create a websocket connection
       const socket = new WebSocket("ws://localhost:3002")
       socket.onopen = () => {
+        setIsTranscribing(true) // Set the state to true when transcription starts
         console.log({ event: "onopen" })
         mediaRecorder.addEventListener("dataavailable", async (event) => {
           if (event.data.size > 0 && socket.readyState === 1) {
@@ -54,11 +51,12 @@ export default function IndexPage() {
           TranscriptionStore.transcripts.push(transcript)
           console.log(transcript)
           setAffirmation(transcript)
-          console.log('result array: ', TranscriptionStore.transcripts)
+          console.log("result array: ", TranscriptionStore.transcripts)
         }
       }
 
       socket.onclose = () => {
+        setIsTranscribing(false) // Set the state to false when transcription ends
         console.log({ event: "onclose" })
       }
 
@@ -66,7 +64,6 @@ export default function IndexPage() {
         console.log({ event: "onerror", error })
       }
 
-      // @ts-ignore
       socketRef.current = socket
     })
   }
@@ -84,16 +81,15 @@ export default function IndexPage() {
       <div className="flex flex-col items-center content-streth">
         <button
           className={buttonVariants()}
-          onClick={activateMicrophone} // Add the onClick event handler
-          disabled={isTranscribing} // Disable the button while transcription is in progress
+          onClick={!isTranscribing ? activateMicrophone : closeSocket} // Add the onClick event handler
+          // disabled={isTranscribing} // Disable the button while transcription is in progress
         >
-          <MicrophoneIcon className="h-5 w-5" /> {/* Add the microphone icon */}
+          <MicrophoneIcon className="h-5 w-5 mr-3" />
+          {/* Add the microphone icon */}
+          {!isTranscribing ? "Start Transcription" : "Stop Transcription"}
         </button>
-        <text>
-          {TranscriptionStore.transcripts.join(' ')}
-        </text>
+        <text>{TranscriptionStore.transcripts.join(" ")}</text>
       </div>
-
     </section>
   )
 }
