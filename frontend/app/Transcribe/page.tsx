@@ -87,16 +87,26 @@ export default function IndexPage() {
           {!isTranscribing ? "Start Transcription" : "Stop Transcription"}
         </button>
 
-        <div className="grid grid-cols-2 border border-gray-300 mt-8">
-          <div className="border-r border-gray-300 p-8">
-            <text>{TranscriptionStore.transcripts.join(" ")}</text>
+        {affirmation && (
+          <div className="flex justify-between mx-10 mt-8">
+            <div className="w-1/2 min-w-0 min-w-0 border border-gray-300 p-8">
+              <h2 className="text-xl font-bold">Physician</h2>
+              <div className="w-full">
+                <text>{TranscriptionStore.transcripts.join(" ")}</text>
+              </div>
+            </div>
+            <div className="w-1/2 min-w-0 border border-gray-300 p-8">
+              <h2 className="text-xl font-bold">Patient</h2>
+              <div className="w-full">
+                <text>
+                  {Array.from(TranscriptionStore.translations.values()).join(
+                    " "
+                  )}
+                </text>
+              </div>
+            </div>
           </div>
-          <div className="p-8">
-            <text>
-              {Array.from(TranscriptionStore.translations.values()).join(" ")}
-            </text>
-          </div>
-        </div>
+        )}
       </div>
     </section>
   )

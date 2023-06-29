@@ -34,7 +34,7 @@ class TranscriptionStore {
 
     try {
       const response = await axios.post(url, {
-        language_code: "fr",
+        language_code: "es",
         text: transcript,
       })
 
