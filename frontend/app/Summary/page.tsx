@@ -31,6 +31,12 @@ export default function IndexPage() {
         <p className="max-w-[700px] text-lg text-muted-foreground">
         your post medical examination summary
         </p>
+        <p className="max-w-[700px] text-sm text-muted-foreground">
+        Next Steps: Get a blood test and write down any experienced symptoms until next visit
+        </p>
+        <p className="max-w-[700px] text-sm text-muted-foreground">
+        Follow up visit scheduled for August 23, 2023
+        </p>
       </div>
     </section>
   )

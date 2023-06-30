@@ -12,14 +12,23 @@ import { AlignCenter } from "lucide-react"
 export default function IndexPage() {
   const [isTranscribing, setIsTranscribing] = useState(false) // Add a state to track if transcription is in progress
 
+  var times_clicked = 0;
   const handleTranscriptionClick = async () => {
+    times_clicked++;
+    console.log(times_clicked)
+    if(times_clicked>1){
+      setIsTranscribing(false)
+    }
+    else{
     setIsTranscribing(true) // Set the state to indicate transcription is in progress
     const mediaStream = await navigator.mediaDevices.getUserMedia({
       audio: true,
     })
+    //setTimeout(handleTranscriptionClick, 3000)
     const audioTrack = mediaStream.getAudioTracks()[0]
     await TranscriptionStore.startTranscription(audioTrack)
-    setIsTranscribing(false) // Reset the state after transcription is complete
+    //setTimeout(handleTranscriptionClick, 3000) // Reset the state after transcription is complete
+  }
   }
 
   return (
@@ -53,7 +62,7 @@ export default function IndexPage() {
         <button
           className={buttonVariants()}
           onClick={handleTranscriptionClick} // Add the onClick event handler
-          disabled={isTranscribing} // Disable the button while transcription is in progress
+          //disabled={isTranscribing} // Disable the button while transcription is in progress
         >
           <MicrophoneIcon className="h-5 w-5" /> {/* Add the microphone icon */}
         </button>
