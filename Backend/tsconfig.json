@@ -4,7 +4,8 @@
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "incremental": false
   },
   "include": ["server.ts"]
 }

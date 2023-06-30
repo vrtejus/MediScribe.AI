@@ -14,7 +14,7 @@ const {
   Filter,
 } = require("firebase-admin/firestore");
 
-const serviceAccount = require("/Users/sarah/Desktop/MediScribe.AI/Backend/mediscribe-ai-8b070e434cf7.json");
+const serviceAccount = require("./mediscribe-ai-8b070e434cf7.json");
 
 initializeApp({
   credential: cert(serviceAccount),
@@ -39,7 +39,7 @@ wss.on("connection", (ws: WebSocket) => {
 
   const deepgramLive = deepgram.transcription.live(transcriptionOptions);
 
-  deepgramLive.addListener("open", () => console.log("dg onopen"));
+  deepgramLive.addListener("open", () => console.log("dg websocket opened"));
 
   deepgramLive.addListener("error", (error: Error) => console.log({ error }));
 
@@ -54,6 +54,8 @@ wss.on("connection", (ws: WebSocket) => {
       .doc("transcription")
       .set(data)
       .then();
+
+    console.log("test 1");
 
     ws.send(data);
   });

@@ -4,9 +4,10 @@ services:
   app:
     # Build the image using the Dockerfile in the current directory
     build: .
-    # Mount the local directory to the container, enabling live code updates during development
+    # Mount only the TypeScript files to the container, enabling live code updates during development
     volumes:
       - .:/app
+      - /app/dist # Add this line to mount the TypeScript output directory to avoid TypeScript source-mapping issues
     # Expose the WebSocket port
     ports:
       - "3002:3002"
