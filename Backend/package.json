@@ -1,4 +1,10 @@
 {
+  "name": "transcription",
+  "version": "your-package-version",
+  "scripts": {
+    "start": "node server.js",
+    "build": "tsc"
+  },
   "dependencies": {
     "@deepgram/sdk": "^1.21.0"
   }

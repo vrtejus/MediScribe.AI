@@ -36,7 +36,7 @@ export default function IndexPage() {
       })
 
       //create a websocket connection
-      const socket = new WebSocket("ws://localhost:3002")
+      const socket = new WebSocket("ws://localhost:8080")
       socket.onopen = () => {
         console.log({ event: "onopen" })
         mediaRecorder.addEventListener("dataavailable", async (event) => {
@@ -54,7 +54,7 @@ export default function IndexPage() {
           TranscriptionStore.transcripts.push(transcript)
           console.log(transcript)
           setAffirmation(transcript)
-          console.log('result array: ', TranscriptionStore.transcripts)
+          console.log("result array: ", TranscriptionStore.transcripts)
         }
       }
 
@@ -89,11 +89,8 @@ export default function IndexPage() {
         >
           <MicrophoneIcon className="h-5 w-5" /> {/* Add the microphone icon */}
         </button>
-        <text>
-          {TranscriptionStore.transcripts.join(' ')}
-        </text>
+        <text>{TranscriptionStore.transcripts.join(" ")}</text>
       </div>
-
     </section>
   )
 }
