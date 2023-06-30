@@ -14,7 +14,7 @@ const {
   Filter,
 } = require("firebase-admin/firestore");
 
-const serviceAccount = require("/Users/sarah/Downloads");
+const serviceAccount = require("/Users/sarah/Desktop/MediScribe.AI/Backend/mediscribe-ai-8b070e434cf7.json");
 
 initializeApp({
   credential: cert(serviceAccount),
