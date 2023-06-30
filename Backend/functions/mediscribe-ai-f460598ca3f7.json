@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "mediscribe-ai",
+  "private_key_id": "f460598ca3f75578c88ea8f720042d53bd5834d3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDHVdTtQss8kqYs\nuo9ETqgzp/OImeEUSMk4BJ25veptU5XOaCJYbeXPy2VX4XhWhDIjsI+jzNmHxAqE\nbgELlkDXVMDGzQv/CLmRGdclRhl1C4D6W/Uk7KNxx9aw7CrFHMWv2dMxO5EJBtXz\ns+B8GmKzeBouMohScBQ5WsqYHiOChHM/l/dob8jeI3topYOHo4yGKYSGr3W25qma\nhRKvFKKMzax+A5dGvT9YmbTZWrGNgyerfHjsqmMFDvg4nZM6OQaqMFuVl5yT46Hp\nwDef88ePuvBIOifAQtQxi1lKKM2KoiS71H5RjVw2U9rI5e8kLO4VH029b4K+ekbe\n8Y+E3H65AgMBAAECggEACfIoa6Y3idAvZm/wkhHyppEsv5Yd+usezyK70/a76bSP\n9vqPLCZfnxyg89+WJ4r1DX7Ty/J+sB2CANWUS8W1eokKDWFRxenjiG/noj57KrHm\nP5ezBaKhDR5RggZmo+spmfqeZQh51h93MW+6NbcDUb0eYUu4LZTWDX6QOULXtr1a\njyAQ40WrJzhVb0vver1pySGEpSdYhqXBzNz3zBu7zSzSfqPTgkUYA/dwNmp+5La/\nJOFR9AHsmJ7S4+r39indearycoWB7kfm//sjyBonSyFH41iJQH1dE3djEgG9//fT\nHhmIk/4JubfPJA9a4TdOZMN75AT18Ugz0fqTs7OfYQKBgQDlVCibC1852uRj6/xP\nsKEUNGPjoHws5sWiYZNsvgplp+3RfButYE7jFZ6IqDYU1Op1W+kbeRoV4kMu+LVB\nHNaThW44EC4hYbnTstWsNUhaB8MDuRL4Aix1hHf4VYam/hLIgZO0P2a0TArTMpJt\nfbj7msSQHzL10j15QdandLBPpQKBgQDehKxEdZp3xSBaD2vDrerJOd7ax4Mpp7Xl\nWowizdjsf/3Jg15FzVT5EROVlAr864LxmKjoOryQk7tiUmT2vjNZWGUfzhD7Ily/\nqYSiBdco2c/q8cMWnDgRQ1nztrkCjzxKYkkI5QJaResEd0kZU5w3rbh6VGxPDoQd\nc+UR2MxGhQKBgARgpeHHxsqQ7hkmMQvIYFrFYT7AGn607QLbf/fsbMBiAz0jdFfL\n5dWZ3QvYwieFpPAWkA2RMzlFt2iXIMacaVAplOAHFwpWFjj/SerenYHycfuJNd58\nFCMuIygfYdGgOfWP26TuLOS2KuK7LWZfpv9OhgAGSG++0qOU6ScLKC5tAoGAarbp\n/vL/n4z0VPysS+3ueY69Z+Li7mk1/MaOCmr6K4G+bpQH9CXjKIeeAtA67MztwXvb\nFXSF1jhjV2X4cbUJ30FbTgN/dVEndeuQZjuy0i6TXjOPwhotcWoBi7YHyEh1O58j\nM5bQqAZ8DWo/rlvAwZsYq+ItB0UI6y8XnpWAchkCgYASPoez2CRS5lG03RZ1jewq\nkYitl2QZY8keXseLFZ5MkzGHtgPinQ8sZfeellsGGy+dWWC0+U3Ms8lnmucTrAft\nnKlHfidi4C+pwJRqHK10BHKKP/bfa24qRNOsEz9gu1jiRMvcPe8hiUFtomHXhu6t\nFCnzgXSi65Q2CzP654k35g==\n-----END PRIVATE KEY-----\n",
+  "client_email": "translation@mediscribe-ai.iam.gserviceaccount.com",
+  "client_id": "112918434692405289349",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/translation%40mediscribe-ai.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
