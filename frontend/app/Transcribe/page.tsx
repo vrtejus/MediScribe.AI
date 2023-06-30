@@ -86,7 +86,6 @@ export default function IndexPage() {
           <MicrophoneIcon className="h-5 w-5 mr-3" />
           {!isTranscribing ? "Start Transcription" : "Stop Transcription"}
         </button>
-
         {affirmation && (
           <div className="flex justify-between mx-10 mt-8">
             <div className="w-1/2 min-w-0 min-w-0 border border-gray-300 p-8">
