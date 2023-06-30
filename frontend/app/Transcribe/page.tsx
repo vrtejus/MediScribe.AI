@@ -36,7 +36,7 @@ export default function IndexPage() {
       })
 
       //create a websocket connection
-      const socket = new WebSocket("ws://localhost:8080")
+      const socket = new WebSocket("ws://localhost:3002")
       socket.onopen = () => {
         console.log({ event: "onopen" })
         mediaRecorder.addEventListener("dataavailable", async (event) => {

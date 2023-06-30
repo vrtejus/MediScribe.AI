@@ -6,6 +6,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@deepgram/sdk": "^1.21.0"
+    "@deepgram/sdk": "^1.21.0",
+    "typescript": "^5.0.4",
+    "@types/markdown-it": "^12.2.3"
   }
 }
