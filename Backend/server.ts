@@ -1,6 +1,27 @@
 const { Deepgram } = require("@deepgram/sdk");
 const WS = require("ws");
 
+// Initialize Firebase
+const {
+  initializeApp,
+  applicationDefault,
+  cert,
+} = require("firebase-admin/app");
+const {
+  getFirestore,
+  Timestamp,
+  FieldValue,
+  Filter,
+} = require("firebase-admin/firestore");
+
+const serviceAccount = require("/Users/sarah/Desktop/MediScribe.AI/Backend/mediscribe-ai-8b070e434cf7.json");
+
+initializeApp({
+  credential: cert(serviceAccount),
+});
+
+const db = getFirestore();
+
 // Add Deepgram so we can get the transcription
 const deepgram = new Deepgram("ef15d0c8fafbf8c16fbbbe6e2d4025337ed09178");
 
@@ -26,5 +47,14 @@ wss.on("connection", (ws: WebSocket) => {
 
   ws.onclose = () => deepgramLive.finish();
 
-  deepgramLive.addListener("transcriptReceived", (data: any) => ws.send(data));
+  deepgramLive.addListener("transcriptReceived", (data: any) => {
+    // Add a new document in collection "appointments" with ID 'transcription' in Firebase
+    const res = db
+      .collection("appointments")
+      .doc("transcription")
+      .set(data)
+      .then();
+
+    ws.send(data);
+  });
 });
