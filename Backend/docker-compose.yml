@@ -1,26 +1,17 @@
-version: "3"
+version: '3.7'
 
 services:
-  # app:
-  #   # Build the image using the Dockerfile in the current directory
-  #   build: .
-  #   # Mount only the TypeScript files to the container, enabling live code updates during development
-  #   volumes:
-  #     - .:/app
-  #     - /app/dist # Add this line to mount the TypeScript output directory to avoid TypeScript source-mapping issues
-  #   # Expose the WebSocket port
-  #   ports:
-  #     - "4000:4000"
   ts-node-docker:
     build:
       context: .
       dockerfile: Dockerfile
+      target: base
     volumes:
       - ./src:/home/node/app/src
       - ./nodemon.json:/home/node/app/nodemon.json
     container_name: ts-node-docker
     expose:
-      - "4000"
+      - '4000'
     ports:
-      - "4000:4000"
+      - '4000:4000'
     command: npm run dev
