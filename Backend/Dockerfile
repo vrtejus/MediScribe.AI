@@ -1,23 +1,15 @@
-# Use the official Node.js 16 image as the base image
-FROM node:16
+FROM node:14 as base
 
-# Set the working directory inside the container
-WORKDIR /app
+WORKDIR /home/node/app
 
-# Copy the package.json and package-lock.json (if available) to the container
-COPY package*.json ./
+COPY package.json ./
 
-# Install app dependencies
-RUN npm install
+RUN npm i
 
-# Copy all the TypeScript files to the container
 COPY . .
 
-# Build the TypeScript code
+FROM base as production
+
+ENV NODE_PATH=./build
+
 RUN npm run build
-
-# Expose the WebSocket port
-EXPOSE 4000
-
-# Command to start the server
-CMD ["npm", "start"]

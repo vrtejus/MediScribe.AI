@@ -1,42 +1,16 @@
 import express from "express";
 
-const { Deepgram } = require("@deepgram/sdk");
-const WS = require("ws");
+import { Deepgram } from "@deepgram/sdk";
 
-// Initialize Firebase
-const {
-  initializeApp,
-  applicationDefault,
-  cert,
-} = require("firebase-admin/app");
-const {
-  getFirestore,
-  Timestamp,
-  FieldValue,
-  Filter,
-} = require("firebase-admin/firestore");
-
-const serviceAccount = require("./mediscribe-ai-8b070e434cf7.json");
-
-initializeApp({
-  credential: cert(serviceAccount),
-});
-
-const app = express();
-app.listen(4000, () => {
-  console.log(`server running on port 4000`);
-});
-
-const db = getFirestore();
+import WS from "ws";
 
 // Add Deepgram so we can get the transcription
 const deepgram = new Deepgram("ef15d0c8fafbf8c16fbbbe6e2d4025337ed09178");
 
-// Add WebSocket
-const wss = new WS.Server({ port: 4000 });
+const ws = new WS.Server({ port: 4000 });
 
 // Open WebSocket Connection and initiate live transcription
-wss.on("connection", (ws: WebSocket) => {
+ws.on("connection", (ws: WebSocket) => {
   const transcriptionOptions = {
     interim_results: false,
     punctuate: true,
@@ -56,13 +30,8 @@ wss.on("connection", (ws: WebSocket) => {
 
   deepgramLive.addListener("transcriptReceived", (data: any) => {
     // Add a new document in collection "appointments" with ID 'transcription' in Firebase
-    const res = db
-      .collection("appointments")
-      .doc("transcription")
-      .set(data)
-      .then();
 
-    console.log("test 1");
+    console.log("test 1 hot reload");
 
     ws.send(data);
   });
