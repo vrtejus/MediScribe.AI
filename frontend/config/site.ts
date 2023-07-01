@@ -10,8 +10,9 @@ export const siteConfig = {
     },
   ],
   links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/anerisheth1/MediScribe.AI",
-    docs: "https://github.com/anerisheth1/MediScribe.AI",
+    twitter: "https://twitter.com/vrtejus",
+    linkedin: "https://www.linkedin.com/in/vishnutejus/",
+    github: "https://github.com/vrtejus/MediScribe.AI",
+    docs: "https://github.com/vrtejus/MediScribe.AI",
   },
 }
