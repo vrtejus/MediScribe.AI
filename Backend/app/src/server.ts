@@ -1,3 +1,5 @@
+import express from "express";
+
 const { Deepgram } = require("@deepgram/sdk");
 const WS = require("ws");
 
@@ -20,13 +22,18 @@ initializeApp({
   credential: cert(serviceAccount),
 });
 
+const app = express();
+app.listen(4000, () => {
+  console.log(`server running on port 4000`);
+});
+
 const db = getFirestore();
 
 // Add Deepgram so we can get the transcription
 const deepgram = new Deepgram("ef15d0c8fafbf8c16fbbbe6e2d4025337ed09178");
 
 // Add WebSocket
-const wss = new WS.Server({ port: 3002 });
+const wss = new WS.Server({ port: 4000 });
 
 // Open WebSocket Connection and initiate live transcription
 wss.on("connection", (ws: WebSocket) => {

@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expose the WebSocket port
-EXPOSE 3002
+EXPOSE 4000
 
 # Command to start the server
 CMD ["npm", "start"]

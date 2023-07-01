@@ -32,7 +32,7 @@ export default function IndexPage() {
       })
 
       //create a websocket connection
-      const socket = new WebSocket("ws://localhost:3002")
+      const socket = new WebSocket("ws://localhost:4000")
       socket.onopen = () => {
         setIsTranscribing(true) // Set the state to true when transcription starts
         console.log({ event: "onopen" })
