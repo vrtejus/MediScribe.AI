@@ -2,20 +2,11 @@ export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
   name: "Mediscribe.ai",
-  description:
-    "Beautifully designed components built with Radix UI.",
+  description: "Beautifully designed components built with Radix UI.",
   mainNav: [
     {
       title: "Home",
       href: "/",
-    },
-    {
-      title: "Transcribe",
-      href: "/Transcribe",
-    },
-    {
-      title: "Summary",
-      href: "/Summary",
     },
   ],
   links: {

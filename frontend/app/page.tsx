@@ -17,11 +17,16 @@ export default function IndexPage() {
           MediScribe.AI <br className="hidden sm:inline" />
         </h1>
         <p className="max-w-[700px] text-lg text-muted-foreground">
-          the future of patient medical care
+          We translate conversations patients have with their doctors in a
+          secure and private manner so language isn't a barrier to quality
+          healthcare.
+        </p>
+        <p className="max-w-[700px] text-lg text-muted-foreground">
+          If this is interesting, call us at (408) 966-8224
         </p>
       </div>
       <div className="flex flex-col items-center">
-        <div className="flex flex-row items-center gap-4">
+        {/* <div className="flex flex-row items-center gap-4">
           <Link
             href={siteConfig.links.docs}
             target="_blank"
@@ -38,7 +43,7 @@ export default function IndexPage() {
           >
             GitHub
           </Link>
-        </div>
+        </div> */}
       </div>
     </section>
   )
