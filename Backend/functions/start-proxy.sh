@@ -1,1 +1,0 @@
-./cloud_sql_proxy -instances=mediscribe-ai:us-central1:instance-1=tcp:5432
