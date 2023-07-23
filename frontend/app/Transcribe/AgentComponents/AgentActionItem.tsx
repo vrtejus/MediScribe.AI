@@ -1,15 +1,18 @@
 import { FC } from "react"
+import AgentStore, { AgentActivityType } from "@/stores/AgentStore"
 import { IoMdCheckmarkCircleOutline, IoMdRadioButtonOff } from "react-icons/io"
 
-type Props = {
-  completed: boolean
-  title: string
-  items: string[]
-}
+import AgentEmail from "./AgentEmail"
 
-const AgentActionItem: FC<Props> = ({ completed, title, items }) => {
+const AgentActionItem = ({
+  id,
+  completed,
+  title,
+  items,
+  createdAt,
+}: AgentActivityType) => {
   return (
-    <div className="mt-4">
+    <div className="mt-4" key={id}>
       <div className="flex items-center space-x-2">
         {completed ? (
           <IoMdCheckmarkCircleOutline className="text-green-500" size={24} />
@@ -20,7 +23,43 @@ const AgentActionItem: FC<Props> = ({ completed, title, items }) => {
       </div>
       <ul className="list-disc pl-5">
         {items.map((item, index) => (
-          <li key={index}>{item}</li>
+          <li key={`activity-${id}-${index}`}>
+            {item === "email" ? (
+              <AgentEmail
+                to={
+                  items
+                    ?.find((item) => item.includes("Found email"))
+                    ?.replace("Found email ", "") ?? "No email found"
+                }
+                subject={
+                  items
+                    ?.find((item) => item.includes("Subject line: "))
+                    ?.replace("Subject line: ", "") ?? "No subject found"
+                }
+                body={
+                  items
+                    ?.find((item) => item.includes("Body: "))
+                    ?.replace("Body: ", "") ?? "No body found"
+                }
+                onSend={async () => {
+                  console.log("send email")
+                  await AgentStore.sendEmail(
+                    items
+                      ?.find((item) => item.includes("Found email"))
+                      ?.replace("Found email ", "") ?? "No email found",
+                    items
+                      ?.find((item) => item.includes("Subject line: "))
+                      ?.replace("Subject line: ", "") ?? "No subject found",
+                    items
+                      ?.find((item) => item.includes("Body: "))
+                      ?.replace("Body: ", "") ?? "No body found"
+                  )
+                }}
+              />
+            ) : (
+              item
+            )}
+          </li>
         ))}
       </ul>
     </div>

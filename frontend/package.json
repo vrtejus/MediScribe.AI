@@ -31,6 +31,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-popper": "^2.3.0",
+    "react-textarea-autosize": "^8.5.2",
     "scichart": "^3.1.346",
     "sharp": "^0.31.3",
     "tailwind-merge": "^1.12.0",

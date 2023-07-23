@@ -13,20 +13,23 @@ const AgentActivity = () => {
       console.log("triggered!")
       AgentStore.sendDialogue(
         TranscriptionStore.dialogue[TranscriptionStore.dialogue.length - 1]
-          ?.text
+          ?.text,
+        TranscriptionStore.dialogue[TranscriptionStore.dialogue.length - 1]
+          ?.speaker
       )
     }
   }, [TranscriptionStore.dialogue.length])
 
   return (
     <div>
-      <AgentActionItem completed={true} title={"Test"} items={["test"]} />
-      {[...AgentStore.agentActivities].reverse().map((activity) => {
+      {AgentStore.agentActivities.map((activity) => {
         return (
           <AgentActionItem
+            id={activity.id}
             completed={activity.completed}
             title={activity.title}
             items={activity.items}
+            createdAt={activity.createdAt}
           />
         )
       })}

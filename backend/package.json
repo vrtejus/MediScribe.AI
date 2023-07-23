@@ -23,7 +23,9 @@
     "@deepgram/sdk": "^1.21.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "firebase-admin": "^11.10.1",
     "openai": "^3.3.0",
+    "resend": "^0.17.1",
     "ws": "^8.13.0"
   }
 }

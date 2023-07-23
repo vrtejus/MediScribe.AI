@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import AgentStore from "@/stores/AgentStore"
 import PatientStore from "@/stores/PatientStore"
 import TranscriptionStore from "@/stores/TranscriptionStore"
 import { MicrophoneIcon } from "@heroicons/react/24/solid"
 import { observer } from "mobx-react"
-import { IoMdSkipForward } from "react-icons/io"
+import { IoIosTrash, IoMdSkipForward, IoMdTrash } from "react-icons/io"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
@@ -25,6 +26,14 @@ const IndexPage = () => {
       socketRef.current.close()
     }
   }
+
+  useEffect(() => {
+    const init = async () => {
+      await AgentStore.subscribeToAgentActivities()
+    }
+
+    init()
+  }, [])
 
   const activateMicrophone = () => {
     console.log("Submit")
@@ -74,6 +83,25 @@ const IndexPage = () => {
     })
   }
 
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(() => {
+    const handleSpaceBarPress = (event: any) => {
+      if (event.code === "Space" && !!buttonRef.current) {
+        // Simulate a click if the button is focused
+        event.preventDefault()
+        buttonRef.current?.click()
+      }
+    }
+
+    window.addEventListener("keydown", handleSpaceBarPress)
+
+    // Remove event listener on cleanup
+    return () => {
+      window.removeEventListener("keydown", handleSpaceBarPress)
+    }
+  }, [])
+
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex flex-col items-center gap-2">
@@ -86,6 +114,7 @@ const IndexPage = () => {
       </div>
       <div className="flex flex-col items-center content-streth">
         <button
+          ref={buttonRef}
           className={buttonVariants()}
           onClick={!isTranscribing ? activateMicrophone : closeSocket} // Add the onClick event handler
         >
@@ -96,7 +125,7 @@ const IndexPage = () => {
           <div className="flex justify-between">
             <div className="w-1/2 min-w-0 border border-gray-300 p-8">
               <div className="flex justify-between items-center pb-4">
-                <h2 className="text-xl font-bold">Patient</h2>
+                <h2 className="text-xl font-bold mr-5">Patient</h2>
                 {PatientStore.currentPatient && (
                   <ShowPatientHistory patient={PatientStore.currentPatient} />
                 )}
@@ -143,7 +172,15 @@ const IndexPage = () => {
             </div>
           </div>
           <div className="w-full border-t-0 border-l border-r border-b border-gray-300 p-8">
-            <h2 className="text-xl font-bold">Agent</h2>
+            <div className="flex justify-between items-center pb-4">
+              <h2 className="text-xl font-bold">Agent</h2>
+              <button
+                className={`${buttonVariants()}}flex items-center justify-center w-10 h-10 rounded-full focus:outline-none`}
+                onClick={AgentStore.deleteAllAgentActivities}
+              >
+                <IoMdTrash size={24} />
+              </button>
+            </div>
             <div className="w-full mt-4">
               <AgentActivity />
             </div>

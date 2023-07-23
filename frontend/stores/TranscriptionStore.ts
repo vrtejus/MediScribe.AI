@@ -101,6 +101,10 @@ class TranscriptionStore {
   }
 
   async addEnglishTranscript(transcript: string) {
+    this.dialogue.push({
+      speaker: "physician",
+      text: transcript,
+    })
     this.transcripts.push(transcript)
 
     if (!this.translations.hasOwnProperty(transcript)) {
