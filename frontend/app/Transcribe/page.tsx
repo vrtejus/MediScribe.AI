@@ -94,11 +94,14 @@ const IndexPage = () => {
       }
     }
 
-    window.addEventListener("keydown", handleSpaceBarPress)
+    if (typeof window !== "undefined") {
+      // Add the event listener only if 'window' is defined (i.e., running in a browser)
+      window.addEventListener("keydown", handleSpaceBarPress)
 
-    // Remove event listener on cleanup
-    return () => {
-      window.removeEventListener("keydown", handleSpaceBarPress)
+      // Remove event listener on cleanup
+      return () => {
+        window.removeEventListener("keydown", handleSpaceBarPress)
+      }
     }
   }, [])
 
