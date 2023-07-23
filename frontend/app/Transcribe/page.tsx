@@ -2,13 +2,20 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import AgentStore from "@/stores/AgentStore"
+import PatientStore from "@/stores/PatientStore"
 import TranscriptionStore from "@/stores/TranscriptionStore"
 import { MicrophoneIcon } from "@heroicons/react/24/solid"
+import { observer } from "mobx-react"
+import { IoIosTrash, IoMdSkipForward, IoMdTrash } from "react-icons/io"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 
-export default function IndexPage() {
+import AgentActivity from "./AgentActivity"
+import ShowPatientHistory from "./ShowPatientHistory"
+
+const IndexPage = () => {
   const [affirmation, setAffirmation] = useState("") // nb: this is actually a hack to get the state to update
   const socketRef = useRef<WebSocket | null>(null) // Specify the type as WebSocket | null
 
@@ -19,6 +26,14 @@ export default function IndexPage() {
       socketRef.current.close()
     }
   }
+
+  useEffect(() => {
+    const init = async () => {
+      await AgentStore.subscribeToAgentActivities()
+    }
+
+    init()
+  }, [])
 
   const activateMicrophone = () => {
     console.log("Submit")
@@ -68,6 +83,28 @@ export default function IndexPage() {
     })
   }
 
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(() => {
+    const handleSpaceBarPress = (event: any) => {
+      if (event.code === "Space" && !!buttonRef.current) {
+        // Simulate a click if the button is focused
+        event.preventDefault()
+        buttonRef.current?.click()
+      }
+    }
+
+    if (typeof window !== "undefined") {
+      // Add the event listener only if 'window' is defined (i.e., running in a browser)
+      window.addEventListener("keydown", handleSpaceBarPress)
+
+      // Remove event listener on cleanup
+      return () => {
+        window.removeEventListener("keydown", handleSpaceBarPress)
+      }
+    }
+  }, [])
+
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex flex-col items-center gap-2">
@@ -80,33 +117,82 @@ export default function IndexPage() {
       </div>
       <div className="flex flex-col items-center content-streth">
         <button
+          ref={buttonRef}
           className={buttonVariants()}
           onClick={!isTranscribing ? activateMicrophone : closeSocket} // Add the onClick event handler
         >
           <MicrophoneIcon className="h-5 w-5 mr-3" />
           {!isTranscribing ? "Start Transcription" : "Stop Transcription"}
         </button>
-        {affirmation && (
-          <div className="flex justify-between mx-10 mt-8">
-            <div className="w-1/2 min-w-0 min-w-0 border border-gray-300 p-8">
-              <h2 className="text-xl font-bold">Physician</h2>
+        <div className="max-w-3/4 mx-auto mt-8">
+          <div className="flex justify-between">
+            <div className="w-1/2 min-w-0 border border-gray-300 p-8">
+              <div className="flex justify-between items-center pb-4">
+                <h2 className="text-xl font-bold mr-5">Patient</h2>
+                {PatientStore.currentPatient && (
+                  <ShowPatientHistory patient={PatientStore.currentPatient} />
+                )}
+              </div>
               <div className="w-full">
-                <text>{TranscriptionStore.transcripts.join(" ")}</text>
+                {Array.from(TranscriptionStore.dialogue.values())
+                  .filter((dialogueItem) => dialogueItem?.speaker === "patient")
+                  .map((dialogueItem, index) => (
+                    <p key={`dialogue-patient-${index}`} className="mb-3">
+                      {dialogueItem?.text}
+                    </p>
+                  ))}
+              </div>
+              <div className="pt-5">
+                <button
+                  className={`${buttonVariants()}}flex items-center justify-center w-5 h-5 rounded-full focus:outline-none`}
+                  onClick={TranscriptionStore.incrementPatientDialogue}
+                >
+                  <IoMdSkipForward size={12} />
+                </button>
               </div>
             </div>
             <div className="w-1/2 min-w-0 border border-gray-300 p-8">
-              <h2 className="text-xl font-bold">Patient</h2>
+              <h2 className="text-xl font-bold pb-4">Physician</h2>
               <div className="w-full">
-                <text>
-                  {Array.from(TranscriptionStore.translations.values()).join(
-                    " "
-                  )}
-                </text>
+                {Array.from(TranscriptionStore.dialogue.values())
+                  .filter(
+                    (dialogueItem) => dialogueItem?.speaker === "physician"
+                  )
+                  .map((dialogueItem, index) => (
+                    <p key={`dialogue-physician-${index}`} className="mb-3">
+                      {dialogueItem?.text}
+                    </p>
+                  ))}
+              </div>
+              <div className="pt-5">
+                <button
+                  className={`${buttonVariants()}}flex items-center justify-center w-5 h-5 rounded-full focus:outline-none`}
+                  onClick={TranscriptionStore.incrementPhysicianDialogue}
+                >
+                  <IoMdSkipForward size={12} />
+                </button>
               </div>
             </div>
           </div>
-        )}
+          <div className="w-full border-t-0 border-l border-r border-b border-gray-300 p-8">
+            <div className="flex justify-between items-center pb-4">
+              <h2 className="text-xl font-bold">Agent</h2>
+              <button
+                className={`${buttonVariants()}}flex items-center justify-center w-10 h-10 rounded-full focus:outline-none`}
+                onClick={AgentStore.deleteAllAgentActivities}
+              >
+                <IoMdTrash size={24} />
+              </button>
+            </div>
+            <div className="w-full mt-4">
+              <AgentActivity />
+            </div>
+          </div>
+        </div>
       </div>
+      <p className="max-w-[700px] text-lg text-muted-foreground">Thank you!</p>
     </section>
   )
 }
+
+export default observer(IndexPage)
