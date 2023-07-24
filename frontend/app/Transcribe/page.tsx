@@ -85,26 +85,6 @@ const IndexPage = () => {
 
   const buttonRef = useRef<HTMLButtonElement | null>(null)
 
-  useEffect(() => {
-    const handleSpaceBarPress = (event: any) => {
-      if (event.code === "Space" && !!buttonRef.current) {
-        // Simulate a click if the button is focused
-        event.preventDefault()
-        buttonRef.current?.click()
-      }
-    }
-
-    if (typeof window !== "undefined") {
-      // Add the event listener only if 'window' is defined (i.e., running in a browser)
-      window.addEventListener("keydown", handleSpaceBarPress)
-
-      // Remove event listener on cleanup
-      return () => {
-        window.removeEventListener("keydown", handleSpaceBarPress)
-      }
-    }
-  }, [])
-
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex flex-col items-center gap-2">
