@@ -1,15 +1,13 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import Link from "next/link"
 import AgentStore from "@/stores/AgentStore"
 import PatientStore from "@/stores/PatientStore"
 import TranscriptionStore from "@/stores/TranscriptionStore"
 import { MicrophoneIcon } from "@heroicons/react/24/solid"
 import { observer } from "mobx-react"
-import { IoIosTrash, IoMdSkipForward, IoMdTrash } from "react-icons/io"
+import { IoMdSkipForward, IoMdTrash } from "react-icons/io"
 
-import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 
 import AgentActivity from "./AgentActivity"
