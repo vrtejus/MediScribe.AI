@@ -7,7 +7,7 @@ FROM node:14 as base
  RUN npm i
 
  # Copy your service account key file to the Docker image
- COPY ./src/mediscribe-ai-8b070e434cf7.json ./src/
+ COPY ./src/mediscribe-ai-c9c4ffefae18.json ./src/
  COPY . .
 
  FROM base as production

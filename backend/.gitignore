@@ -64,6 +64,3 @@
 
  # dotenv environment variables file
  .env
-
- # ignores firebase key json file
- /mediscribe-ai-8b070e434cf7.json

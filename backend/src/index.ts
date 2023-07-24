@@ -20,7 +20,10 @@ import {
   Filter,
 } from "firebase-admin/firestore";
 
-const serviceAccount = require("./mediscribe-ai-8b070e434cf7.json");
+import dotenv from "dotenv";
+dotenv.config();
+
+const serviceAccount = require("./mediscribe-ai-c9c4ffefae18.json");
 
 initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -28,15 +31,15 @@ initializeApp({
 });
 
 const configuration = new Configuration({
-  organization: "org-xACdb2oe7uOMfDChhMbcoC8X",
-  apiKey: "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",
+  organization: process.env.OPENAI_ORG_ID,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
 const db = getFirestore();
 
 // Add Deepgram so we can get the transcription
-const deepgram = new Deepgram("ef15d0c8fafbf8c16fbbbe6e2d4025337ed09178");
+const deepgram = new Deepgram(process.env.DEEPGRAM_API_KEY);
 
 const ws = new WS.Server({ port: 4000 });
 const app = express();

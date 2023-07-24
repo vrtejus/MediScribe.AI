@@ -17,3 +17,5 @@ services:
       - "4000:4000"
       - "4001:4001"
     command: npm run dev
+    env_file:
+      - ./.env
