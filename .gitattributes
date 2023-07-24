@@ -1,0 +1,2 @@
+backend/.env filter=git-crypt diff=git-crypt
+backend/src/mediscribe-ai-c9c4ffefae18.json filter=git-crypt diff=git-crypt
