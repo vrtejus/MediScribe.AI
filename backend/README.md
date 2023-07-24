@@ -12,7 +12,7 @@ If you have not created a GPG key pair on your computer before, run `gpg --full-
 Send your GPG `USER_ID` to an admin to get access.
 Example of `USER_ID` if you followed every instruction in the GPG key pair creation process: `First Last (Comment) <email>`
 
-After you've been granted access, you can pull the latest from `main` and continue with the steps below.
+After you've been granted access, you can pull the latest from `main`, run `git-crypt unlock` and continue with the steps below.
 
 > Once you have access, you can give access to anybody else by running: `git-crypt add-gpg-user USER_ID`
 
