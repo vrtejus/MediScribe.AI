@@ -43,10 +43,9 @@ const deepgram = new Deepgram(process.env.DEEPGRAM_API_KEY);
 
 const ws = new WS.Server({ port: 4000 });
 const app = express();
-app.use(express.json());
 
-// @ts-ignore
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
+app.use(express.json());
 
 // Open WebSocket Connection and initiate live transcription
 ws.on("connection", (ws: WebSocket) => {

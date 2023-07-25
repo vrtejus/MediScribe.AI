@@ -8,6 +8,10 @@ export const siteConfig = {
       title: "Home",
       href: "/",
     },
+    {
+      title: "Transcribe",
+      href: "/Transcribe",
+    },
   ],
   links: {
     twitter: "https://twitter.com/vrtejus",

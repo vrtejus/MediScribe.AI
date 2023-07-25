@@ -5,11 +5,12 @@ import Link from "next/link"
 import TranscriptionStore from "@/stores/TranscriptionStore"
 import { MicrophoneIcon } from "@heroicons/react/24/solid"
 import { AlignCenter } from "lucide-react"
+import { observer } from "mobx-react"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 
-export default function IndexPage() {
+const IndexPage = () => {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex flex-col items-center gap-2">
@@ -21,12 +22,9 @@ export default function IndexPage() {
           secure and private manner so language isn't a barrier to quality
           healthcare.
         </p>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          If this is interesting, call us at (408) 966-8224
-        </p>
       </div>
       <div className="flex flex-col items-center">
-        {/* <div className="flex flex-row items-center gap-4">
+        <div className="flex flex-row items-center gap-4">
           <Link
             href={siteConfig.links.docs}
             target="_blank"
@@ -43,8 +41,10 @@ export default function IndexPage() {
           >
             GitHub
           </Link>
-        </div> */}
+        </div>
       </div>
     </section>
   )
 }
+
+export default observer(IndexPage)
