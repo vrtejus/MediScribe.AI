@@ -1,0 +1,5 @@
+runtime: custom
+env: flex
+automatic_scaling:
+  target_concurrent_requests: 10
+  max_concurrent_requests: 50
